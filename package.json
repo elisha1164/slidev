@@ -1,0 +1,12 @@
+{
+  "name": "my-multiple-slides",
+  "private": true,
+  "scripts": {
+    "build:20260517": "slidev build presentations/20260517.md --out dist/20260517 --base /slidev/20260517/",
+    "build": "npm run build:20260517"
+  },
+  "dependencies": {
+    "@slidev/cli": "latest",
+    "@slidev/theme-default": "latest"
+  }
+}
