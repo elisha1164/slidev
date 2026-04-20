@@ -22,6 +22,11 @@ jobs:
       - name: 🔨 執行所有簡報打包
         run: npm run build
 
+      - name: 📄 複製首頁目錄
+        run: |
+          mkdir -p dist
+          cp public/index.html dist/index.html
+
       - name: 🚀 發布到 GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4
         with:
