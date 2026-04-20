@@ -2,8 +2,9 @@
   "name": "my-multiple-slides",
   "private": true,
   "scripts": {
+    "build:20260412": "slidev build presentations/20260412.md --out ../dist/20260412 --base /slidev/20260412/",
     "build:20260517": "slidev build presentations/20260517.md --out ../dist/20260517 --base /slidev/20260517/",
-    "build": "npm run build:20260517"
+    "build": "npm run build:20260412 && npm run build:20260517"
   },
   "dependencies": {
     "@slidev/cli": "latest",
