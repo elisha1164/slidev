@@ -1,0 +1,25 @@
+/* --- 覆蓋 Slidev 的預設排版 --- */
+
+/* 1. 將所有頁面的基礎字體放大 (相當於 text-3xl) */
+.slidev-layout {
+  font-size: 1.8rem !important; 
+  line-height: 1.6 !important;
+  color: #000000 !important; /* 強制最高對比度：純黑 */
+}
+
+/* 2. 將清單項目 (大綱) 的間距拉開，方便閱讀 */
+.slidev-layout ul, .slidev-layout ol {
+  line-height: 2 !important;
+}
+
+/* 3. 防止次要文字或清單符號變成灰色 */
+.slidev-layout li, .slidev-layout p {
+  opacity: 1 !important;
+}
+
+/* 4. 將標題字體再放大 */
+.slidev-layout h1 {
+  font-size: 3rem !important;
+  font-weight: bold !important;
+  line-height: 1.4 !important;
+}
