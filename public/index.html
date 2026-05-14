@@ -1,4 +1,4 @@
-<!-- 版本號：1.1.1 | 修改主旨：在簡報列表中補回 PDF 下載連結 -->
+<!-- 版本號：1.1.2 | 修改主旨：將 PDF 下載按鈕移入卡片內部右下方，優化排版 -->
 <!DOCTYPE html>
 <html lang="zh-TW">
 <head>
@@ -45,30 +45,34 @@
         }
 
         /* --- 🃏 卡片本體設計 --- */
-        /* 修正：只針對第一個 <a> 標籤套用卡片樣式，避免影響 PDF 下載連結 */
-        .slide-list li > a:first-child {
-            display: flex;
-            flex-direction: column;
-            gap: 0.8rem;
+        .slide-list li {
+            position: relative; /* 為了讓 PDF 按鈕可以絕對定位在卡片內 */
             background: var(--card-bg);
-            padding: 1.2rem 1.5rem;
             border-radius: var(--border-radius);
-            text-decoration: none;
-            color: var(--text-main);
             box-shadow: 0 2px 5px rgba(0,0,0,0.04);
             border: 1px solid #eaeaea;
             transition: all 0.2s ease;
         }
 
         /* --- ✨ 游標滑過效果 --- */
-        .slide-list li > a:first-child:hover {
+        .slide-list li:hover {
             transform: translateY(-3px);
             box-shadow: 0 5px 15px rgba(0,0,0,0.08);
             border-color: var(--hover-color);
         }
 
-        .slide-list li > a:first-child:hover .title {
+        .slide-list li:hover .title {
             color: var(--hover-color);
+        }
+
+        /* 將主連結內部間距獨立出來 */
+        .main-link {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+            padding: 1.2rem 1.5rem;
+            text-decoration: none;
+            color: var(--text-main);
         }
 
         /* --- 內部排版列 --- */
@@ -84,6 +88,8 @@
             justify-content: flex-start;
             gap: 1.5rem;
             width: 100%;
+            padding-right: 4.5rem; /* 預留右下角按鈕空間，防止文字重疊 */
+            box-sizing: border-box;
         }
 
         /* --- 🔠 標題與日期文字 --- */
@@ -112,6 +118,26 @@
             gap: 0.4rem;
         }
 
+        /* --- PDF 下載按鈕 --- */
+        .pdf-link {
+            position: absolute;
+            bottom: 1.2rem;
+            right: 1.5rem;
+            font-size: 0.8rem;
+            color: #d32f2f;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            background-color: rgba(211, 47, 47, 0.05);
+            transition: all 0.2s ease;
+            z-index: 2; /* 確保按鈕層級在主連結之上 */
+        }
+
+        .pdf-link:hover {
+            background-color: rgba(211, 47, 47, 0.15);
+        }
+
         /* 手機版響應式微調 */
         @media (max-width: 480px) {
             .card-row-main {
@@ -136,7 +162,7 @@
     <ul class="slide-list">
         
         <li>
-            <a href="/slidev/20260517/">
+            <a href="/slidev/20260517/" class="main-link">
                 <div class="card-row-main">
                     <span class="title">驚喜好禮三重送</span>
                     <span class="date">20260517</span>
@@ -146,13 +172,11 @@
                     <span class="meta-info">📍 鄉福滿州教會</span>
                 </div>
             </a>
-            <div style="text-align: right; margin-top: 0.4rem; margin-right: 0.5rem;">
-                <a href="/slidev/20260517/slides.pdf" style="font-size: 0.8rem; color: #d32f2f;">[PDF 下載]</a>
-            </div>
+            <a href="/slidev/20260517/slides.pdf" class="pdf-link" title="下載 PDF">[PDF 下載]</a>
         </li>
 
         <li>
-            <a href="/slidev/20260412/">
+            <a href="/slidev/20260412/" class="main-link">
                 <div class="card-row-main">
                     <span class="title">宇宙級的約定</span>
                     <span class="date">20260412</span>
@@ -162,9 +186,7 @@
                     <span class="meta-info">📍 鄉福滿州教會</span>
                 </div>
             </a>
-            <div style="text-align: right; margin-top: 0.4rem; margin-right: 0.5rem;">
-                <a href="/slidev/20260412/slides.pdf" style="font-size: 0.8rem; color: #d32f2f;">[PDF 下載]</a>
-            </div>
+            <a href="/slidev/20260412/slides.pdf" class="pdf-link" title="下載 PDF">[PDF 下載]</a>
         </li>
 
     </ul>
