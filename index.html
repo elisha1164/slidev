@@ -1,3 +1,4 @@
+<!-- 版本號：1.1.0 | 修改主旨：在簡報列表中新增經文出處與講道地點資訊 -->
 <!DOCTYPE html>
 <html lang="zh-TW">
 <head>
@@ -46,8 +47,8 @@
         /* --- 🃏 卡片本體設計 --- */
         .slide-list li a {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
+            flex-direction: column;
+            gap: 0.8rem;
             background: var(--card-bg);
             padding: 1.2rem 1.5rem;
             border-radius: var(--border-radius);
@@ -69,6 +70,21 @@
             color: var(--hover-color);
         }
 
+        /* --- 內部排版列 --- */
+        .card-row-main {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+        }
+
+        .card-row-sub {
+            display: flex;
+            justify-content: flex-start;
+            gap: 1.5rem;
+            width: 100%;
+        }
+
         /* --- 🔠 標題與日期文字 --- */
         .title {
             font-size: 1.15rem;
@@ -86,12 +102,25 @@
             letter-spacing: 0.5px;
         }
 
+        /* --- 🔠 經文與地點文字 --- */
+        .meta-info {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
         /* 手機版響應式微調 */
         @media (max-width: 480px) {
-            .slide-list li a {
+            .card-row-main {
                 flex-direction: column;
                 align-items: flex-start;
                 gap: 0.5rem;
+            }
+            .card-row-sub {
+                flex-direction: column;
+                gap: 0.3rem;
             }
             .date {
                 font-size: 0.8rem;
@@ -104,24 +133,34 @@
     <h1>📖 主日講道簡報庫</h1>
 
     <ul class="slide-list">
- 
-        <li>
-            <a href="/slidev/20260412/">
-                <span class="title">宇宙級的約定</span>
-                <span class="date">20260412</span>
-            </a>
-            <a href="/slidev/20260412/slides.pdf" style="font-size: 0.8rem; color: #d32f2f;">[PDF 下載]</a>
-        </li>
-
+        
         <li>
             <a href="/slidev/20260517/">
-                <span class="title">我的第一份 Slidev 簡報</span>
-                <span class="date">20260517</span>
+                <div class="card-row-main">
+                    <span class="title">驚喜好禮三重送</span>
+                    <span class="date">20260517</span>
+                </div>
+                <div class="card-row-sub">
+                    <span class="meta-info">📖 創世記 8:20-9:17</span>
+                    <span class="meta-info">📍 鄉福滿州教會</span>
+                </div>
             </a>
-            <a href="/slidev/20260517/slides.pdf" style="font-size: 0.8rem; color: #d32f2f;">[PDF 下載]</a>
         </li>
 
-        </ul>
+        <li>
+            <a href="/slidev/20260412/">
+                <div class="card-row-main">
+                    <span class="title">宇宙級的約定</span>
+                    <span class="date">20260412</span>
+                </div>
+                <div class="card-row-sub">
+                    <span class="meta-info">📖 創世記 8:1-19</span>
+                    <span class="meta-info">📍 鄉福滿州教會</span>
+                </div>
+            </a>
+        </li>
+
+    </ul>
 
 </body>
 </html>
