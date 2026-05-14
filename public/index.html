@@ -1,4 +1,4 @@
-<!-- 版本號：1.1.0 | 修改主旨：在簡報列表中新增經文出處與講道地點資訊 -->
+<!-- 版本號：1.1.1 | 修改主旨：在簡報列表中補回 PDF 下載連結 -->
 <!DOCTYPE html>
 <html lang="zh-TW">
 <head>
@@ -45,7 +45,8 @@
         }
 
         /* --- 🃏 卡片本體設計 --- */
-        .slide-list li a {
+        /* 修正：只針對第一個 <a> 標籤套用卡片樣式，避免影響 PDF 下載連結 */
+        .slide-list li > a:first-child {
             display: flex;
             flex-direction: column;
             gap: 0.8rem;
@@ -60,13 +61,13 @@
         }
 
         /* --- ✨ 游標滑過效果 --- */
-        .slide-list li a:hover {
+        .slide-list li > a:first-child:hover {
             transform: translateY(-3px);
             box-shadow: 0 5px 15px rgba(0,0,0,0.08);
             border-color: var(--hover-color);
         }
 
-        .slide-list li a:hover .title {
+        .slide-list li > a:first-child:hover .title {
             color: var(--hover-color);
         }
 
@@ -145,6 +146,9 @@
                     <span class="meta-info">📍 鄉福滿州教會</span>
                 </div>
             </a>
+            <div style="text-align: right; margin-top: 0.4rem; margin-right: 0.5rem;">
+                <a href="/slidev/20260517/slides.pdf" style="font-size: 0.8rem; color: #d32f2f;">[PDF 下載]</a>
+            </div>
         </li>
 
         <li>
@@ -158,6 +162,9 @@
                     <span class="meta-info">📍 鄉福滿州教會</span>
                 </div>
             </a>
+            <div style="text-align: right; margin-top: 0.4rem; margin-right: 0.5rem;">
+                <a href="/slidev/20260412/slides.pdf" style="font-size: 0.8rem; color: #d32f2f;">[PDF 下載]</a>
+            </div>
         </li>
 
     </ul>
