@@ -1,3 +1,4 @@
+# 版本號：1.2.0 | 修改主旨：加入從 gh-pages 分支繼承既有 PDF 的邏輯，避免未變動的簡報遺失 PDF
 name: Deploy Multiple Slidev to GitHub Pages
 
 on:
@@ -7,7 +8,6 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    # 確保機器人具備寫入權限（這是先前 403 錯誤的預防保險）
     permissions:
       contents: write
       
@@ -15,7 +15,6 @@ jobs:
       - name: 📥 取得程式碼
         uses: actions/checkout@v4
         with:
-          # 關鍵修正：必須抓取完整歷史紀錄，差異偵測才能運作
           fetch-depth: 0
 
       - name: ⚙️ 設定 Node.js 環境
@@ -45,9 +44,7 @@ jobs:
           for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
             filename=$(basename "$file" .md)
             echo "正在為 $filename 生成 PDF..."
-            # 確保子目錄存在，避免匯出失敗
             mkdir -p "dist/$filename"
-            # 修正輸出路徑：直接指向 dist 資料夾內
             npx slidev export "$file" --output "dist/$filename/slides.pdf"
           done
 
@@ -55,6 +52,32 @@ jobs:
         run: |
           mkdir -p dist
           cp public/index.html dist/index.html
+
+      - name: 🔄 繼承既有的 PDF 檔案 (方案 B)
+        run: |
+          # 建立一個暫存目錄來存放 gh-pages 分支的內容
+          mkdir -p /tmp/gh-pages
+          # 嘗試將 gh-pages 分支 checkout 到暫存目錄。如果分支不存在（例如第一次部署），則忽略錯誤。
+          git worktree add /tmp/gh-pages gh-pages || echo "gh-pages branch not found, skipping PDF inheritance."
+          
+          # 如果暫存目錄成功建立（代表 gh-pages 分支存在）
+          if [ -d "/tmp/gh-pages" ]; then
+            # 尋找所有在 gh-pages 分支下的 slides.pdf 檔案
+            find /tmp/gh-pages -name "slides.pdf" | while read pdffile; do
+              # 取得該 PDF 所在的相對路徑 (例如：/tmp/gh-pages/20260412/slides.pdf 變成 20260412/slides.pdf)
+              relpath="${pdffile#/tmp/gh-pages/}"
+              # 如果目前的 dist 目錄下「沒有」這個 PDF，就把它複製過來
+              if [ ! -f "dist/$relpath" ]; then
+                 # 先確保目標目錄存在
+                 mkdir -p "dist/$(dirname "$relpath")"
+                 # 複製 PDF
+                 cp "$pdffile" "dist/$relpath"
+                 echo "已繼承舊版 PDF: $relpath"
+              fi
+            done
+            # 清理 worktree
+            git worktree remove /tmp/gh-pages
+          fi
 
       - name: 🚀 發布到 GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4
