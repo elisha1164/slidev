@@ -37,7 +37,8 @@ jobs:
           for file in presentations/*.md; do
             filename=$(basename "$file" .md)
             echo "正在打包網頁版簡報: $filename ..."
-            npx slidev build "$file" --out "../dist/$filename" --base "/slidev/$filename/"
+            # 修正：將 --base 更改為相對路徑 "./"，避免 Hash 模式下的路由疊加錯誤
+            npx slidev build "$file" --out "../dist/$filename" --base "./"
           done
 
       - name: 🌐 安裝瀏覽器元件 (僅在有變動時執行)
