@@ -32,7 +32,13 @@ jobs:
           files: presentations/*.md
 
       - name: 🔨 執行所有簡報打包
-        run: npm run build
+        run: |
+          # 自動掃描 presentations 資料夾下所有的 .md 檔案並逐一打包
+          for file in presentations/*.md; do
+            filename=$(basename "$file" .md)
+            echo "正在打包網頁版簡報: $filename ..."
+            npx slidev build "$file" --out "../dist/$filename" --base "/slidev/$filename/"
+          done
 
       - name: 🌐 安裝瀏覽器元件 (僅在有變動時執行)
         if: steps.changed-files.outputs.any_changed == 'true'
