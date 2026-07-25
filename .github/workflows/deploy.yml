@@ -86,6 +86,9 @@ jobs:
             git worktree remove /tmp/gh-pages
           fi
 
+      - name: 🚫 禁用 Jekyll (解決底線檔案 404 錯誤)
+        run: touch dist/.nojekyll
+
       - name: 🚀 發布到 GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4
         with:
